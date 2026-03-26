@@ -23,7 +23,7 @@ export default function Home() {
   const longPressTimerRef = useRef<NodeJS.Timeout | null>(null);
   const API_URL = process.env.NEXT_PUBLIC_API;
   useEffect(() => {
-    fetch(`http://${API_URL}/api/videos`)
+    fetch(`https://${API_URL}/api/videos`)
       .then((res) => res.json())
       .then((data) => {
         const videosWithFullUrl = data.map((video: Video) => {
@@ -178,7 +178,7 @@ export default function Home() {
               loop
               playsInline
               onPlay={() =>
-                fetch(`http://${API_URL}/api/videos/${currentVideo.id}/views`, {
+                fetch(`https://${API_URL}/api/videos/${currentVideo.id}/views`, {
                   method: "POST",
                 }).then(() => {
                   setVideos(
@@ -211,7 +211,7 @@ export default function Home() {
               <button
                 onClick={() => {
                   fetch(
-                    `http://${API_URL}/api/videos/${currentVideo.id}/likes`,
+                    `https://${API_URL}/api/videos/${currentVideo.id}/likes`,
                     { method: "POST" }
                   ).then(() => {
                     setVideos(

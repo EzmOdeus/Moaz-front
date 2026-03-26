@@ -21,7 +21,7 @@ export default function VideoPage() {
   const [videoError, setVideoError] = useState(false);
   const API_URL = process.env.NEXT_PUBLIC_API;
   useEffect(() => {
-    fetch(`http://${API_URL}/api/videos/${id}`)
+    fetch(`https://${API_URL}/api/videos/${id}`)
       .then(res => res.json())
       .then(data => {
         if (data.url && !data.url.startsWith('http')) {
@@ -78,7 +78,7 @@ export default function VideoPage() {
               autoPlay
               onError={() => setVideoError(true)}
               onPlay={() => {
-                fetch(`http://${API_URL}/api/videos/${id}/views`, { method: 'POST' });
+                fetch(`https://${API_URL}/api/videos/${id}/views`, { method: 'POST' });
               }}
             />
           )}
@@ -91,7 +91,7 @@ export default function VideoPage() {
             <button
           
               onClick={() => {
-                fetch(`http://${API_URL}/api/videos/${id}/likes`, { method: 'POST' })
+                fetch(`https://${API_URL}/api/videos/${id}/likes`, { method: 'POST' })
                   .then(() => {
                     setVideo({ ...video, likes: video.likes + 1 });
                   });
