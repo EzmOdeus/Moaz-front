@@ -51,14 +51,16 @@ export default function Home() {
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
-      if (e.deltaY > 0 && currentVideoIndex < videos.length - 1) {
+      if (e.deltaY > 0) {
+        // Scroll down: next video, loop to first if at end
         setVideoError(null);
         setIsPlaying(true);
-        setCurrentVideoIndex(currentVideoIndex + 1);
-      } else if (e.deltaY < 0 && currentVideoIndex > 0) {
+        setCurrentVideoIndex((prev) => (prev + 1) % videos.length);
+      } else if (e.deltaY < 0) {
+        // Scroll up: previous video, loop to last if at start
         setVideoError(null);
         setIsPlaying(true);
-        setCurrentVideoIndex(currentVideoIndex - 1);
+        setCurrentVideoIndex((prev) => (prev - 1 + videos.length) % videos.length);
       }
     };
 
@@ -75,14 +77,16 @@ export default function Home() {
       const endY = e.changedTouches?.[0]?.clientY ?? startY;
       const diffY = startY - endY;
       if (Math.abs(diffY) > 50) {
-        if (diffY > 0 && currentVideoIndex < videos.length - 1) {
+        if (diffY > 0) {
+          // Swipe up: next video, loop to first if at end
           setVideoError(null);
           setIsPlaying(true);
-          setCurrentVideoIndex(currentVideoIndex + 1);
-        } else if (diffY < 0 && currentVideoIndex > 0) {
+          setCurrentVideoIndex((prev) => (prev + 1) % videos.length);
+        } else if (diffY < 0) {
+          // Swipe down: previous video, loop to last if at start
           setVideoError(null);
           setIsPlaying(true);
-          setCurrentVideoIndex(currentVideoIndex - 1);
+          setCurrentVideoIndex((prev) => (prev - 1 + videos.length) % videos.length);
         }
       }
     };
@@ -167,9 +171,7 @@ export default function Home() {
                 onClick={() => {
                   setVideoError(null);
                   setIsPlaying(true);
-                  if (currentVideoIndex < videos.length - 1) {
-                    setCurrentVideoIndex(currentVideoIndex + 1);
-                  }
+                  setCurrentVideoIndex((prev) => (prev + 1) % videos.length);
                 }}
                 className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-full text-white font-medium"
               >
