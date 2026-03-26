@@ -10,4 +10,4 @@ export default withPWA({
   dest: "public",
   register: true,
   skipWaiting: true,
-})(nextConfig);
+})(nextConfig as any);
