@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MWA3EZ Reels",
+  title: "Moa3z Reels",
   description: "Discover amazing short videos",
   manifest: "/manifest.json",
   themeColor: "#000000",
