@@ -19,9 +19,15 @@ export default function VideoPage() {
   const [video, setVideo] = useState<Video | null>(null);
   const [loading, setLoading] = useState(true);
   const [videoError, setVideoError] = useState(false);
-  const API_URL = process.env.NEXT_PUBLIC_API;
+  const API_URL = process.env.NEXT_PUBLIC_API || "";
+  const normalizedApiUrl = API_URL
+    ? API_URL.startsWith("http")
+      ? API_URL.replace(/\/$/, "")
+      : `https://${API_URL.replace(/\/$/, "")}`
+    : "";
+
   useEffect(() => {
-    fetch(`https://${API_URL}/api/videos/${id}`)
+    fetch(`${normalizedApiUrl || ""}/api/videos/${id}`)
       .then(res => res.json())
       .then(data => {
         if (data.url && !data.url.startsWith('http')) {
@@ -35,7 +41,7 @@ export default function VideoPage() {
         console.error(err);
         setLoading(false);
       });
-  }, [id]);
+  }, [id, normalizedApiUrl]);
 
   if (loading) {
     return (

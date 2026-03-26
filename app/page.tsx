@@ -21,9 +21,16 @@ export default function Home() {
   const [isLongPress, setIsLongPress] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const longPressTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const API_URL = process.env.NEXT_PUBLIC_API;
+  const API_URL = process.env.NEXT_PUBLIC_API || "";
+  const normalizedApiUrl = API_URL
+    ? API_URL.startsWith("http")
+      ? API_URL.replace(/\/$/, "")
+      : `https://${API_URL.replace(/\/$/, "")}`
+    : "";
+  const apiEndpoint = normalizedApiUrl ? `${normalizedApiUrl}/api` : "/api";
+
   useEffect(() => {
-    fetch(`https://${API_URL}/api/videos`)
+    fetch(`${apiEndpoint}/videos`)
       .then((res) => res.json())
       .then((data) => {
         const videosWithFullUrl = data.map((video: Video) => {
@@ -39,7 +46,7 @@ export default function Home() {
         console.error(err);
         setLoading(false);
       });
-  }, []);
+  }, [apiEndpoint]);
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
@@ -60,7 +67,7 @@ export default function Home() {
     };
 
     const handleTouchEnd = (e: TouchEvent) => {
-      const endY = e?.touches[0]?.clientY;
+      const endY = e.changedTouches?.[0]?.clientY ?? startY;
       const diffY = startY - endY;
       if (Math.abs(diffY) > 50) {
         if (diffY > 0 && currentVideoIndex < videos.length - 1) {
@@ -115,15 +122,7 @@ export default function Home() {
   }
 
   const currentVideo = videos[currentVideoIndex];
-  const vid = () => {
-    if (videoRef.current && !videoError) {
-      if (isPlaying) {
-        videoRef.current.play();
-      } else {
-        videoRef.current.pause();
-      }
-    }
-  };
+
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
       <header className="absolute top-0 left-0 right-0 p-6 bg-black/50 backdrop-blur-sm z-10">
@@ -197,7 +196,7 @@ export default function Home() {
               }
             />
           )}
-          <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 to-transparent">
+          <div className="absolute bottom-0 left-0 right-0 p-6 bg-linear-to-t from-black/70 to-transparent">
             <h2 className="text-lg font-semibold mb-2">{currentVideo.title}</h2>
             <div className="flex justify-between items-center mb-4">
               <span className="text-gray-300 text-sm">
