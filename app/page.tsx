@@ -63,7 +63,12 @@ export default function Home() {
     };
 
     const handleTouchStart = (e: TouchEvent) => {
+      e.preventDefault();
       startY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      e.preventDefault();
     };
 
     const handleTouchEnd = (e: TouchEvent) => {
@@ -85,12 +90,14 @@ export default function Home() {
     let startY: number;
 
     window.addEventListener("wheel", handleWheel, { passive: false });
-    window.addEventListener("touchstart", handleTouchStart);
-    window.addEventListener("touchend", handleTouchEnd);
+    window.addEventListener("touchstart", handleTouchStart, { passive: false });
+    window.addEventListener("touchmove", handleTouchMove, { passive: false });
+    window.addEventListener("touchend", handleTouchEnd, { passive: false });
 
     return () => {
       window.removeEventListener("wheel", handleWheel);
       window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("touchend", handleTouchEnd);
     };
   }, [currentVideoIndex, videos.length]);
@@ -124,7 +131,7 @@ export default function Home() {
   const currentVideo = videos[currentVideoIndex];
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+    <div className="min-h-screen bg-black text-white relative overflow-hidden overscroll-none touch-pan-y">
       <header className="absolute top-0 left-0 right-0 p-6 bg-black/50 backdrop-blur-sm z-10">
         <h1 className="text-2xl font-bold text-center">MWA3EZ Reels</h1>
       </header>
