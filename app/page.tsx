@@ -135,7 +135,7 @@ export default function Home() {
   const currentVideo = videos[currentVideoIndex];
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden overscroll-none touch-pan-y">
+    <div className="min-h-screen my-10 bg-black text-white relative overflow-hidden overscroll-none touch-pan-y">
       <header className="absolute top-0 left-0 right-0 p-6 bg-black/50 backdrop-blur-sm z-10">
         <h1 className="text-2xl font-bold text-center">MWA3EZ Reels</h1>
       </header>
