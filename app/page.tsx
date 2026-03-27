@@ -141,7 +141,7 @@ export default function Home() {
       </header>
       <main className="h-screen flex items-center justify-center">
         <div
-          className="relative w-full h-full md:p-10 max-md:max-w-md mx-auto"
+          className="relative w-full h-full m-10 max-md:max-w-md mx-auto"
           onTouchStart={() => {
             longPressTimerRef.current = setTimeout(() => {
               setIsLongPress(true);
