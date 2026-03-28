@@ -139,7 +139,7 @@ export default function Home() {
       <header className="absolute top-0 left-0 right-0 p-6 bg-black/50 backdrop-blur-sm z-10">
         <h1 className="text-2xl font-bold text-center">MWA3EZ Reels</h1>
       </header>
-      <main className="h-screen flex items-center justify-center">
+      <main className="h-[95vh] flex items-center justify-center">
         <div
           className="relative w-full h-full m-10 max-md:max-w-md mx-auto"
           onTouchStart={() => {
